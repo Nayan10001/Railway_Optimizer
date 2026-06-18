@@ -7,6 +7,16 @@
   <a href="https://github.com/Nayan10001/Railway_Optimizer/issues"><img src="https://img.shields.io/badge/Support-Issues-blue?style=for-the-badge" alt="Support Issues"></a>
 </p>
 
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
+  <img src="https://img.shields.io/badge/Rust-000000?style=for-the-badge&logo=rust&logoColor=white" alt="Rust">
+  <img src="https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white" alt="Streamlit">
+  <img src="https://img.shields.io/badge/Polars-CD7F32?style=for-the-badge" alt="Polars">
+  <img src="https://img.shields.io/badge/Plotly-3F4F75?style=for-the-badge&logo=plotly&logoColor=white" alt="Plotly">
+  <img src="https://img.shields.io/badge/Maturin%20%2F%20PyO3-Compiled-9cf?style=for-the-badge" alt="Maturin / PyO3">
+  <img src="https://img.shields.io/badge/HiGHS-Solver-0052CC?style=for-the-badge" alt="HiGHS Solver">
+</p>
+
 **A high-performance, physics-aware discrete Time-Space Network (TSN) scheduling engine designed to maximize freight throughput and resolve routing conflicts along railway corridors.** It features a hybrid Rust+Python optimizer that combines parallel compiled bitmask filtering and traction physics simulation with a PyMIP formulation solved via the high-performance parallel dual-simplex HiGHS engine. Run it as a command-line tool or as an interactive Streamlit dashboard to compute conflict-free, optimal train paths in real time.
 
 <table>
