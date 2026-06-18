@@ -1,0 +1,10 @@
+streamlit
+pandas
+plotly
+numpy
+matplotlib
+pulp
+polars
+mip
+highspy
+maturin

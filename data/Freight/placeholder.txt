@@ -1,0 +1,1 @@
+Placeholder file for Freight goods train CSV data logs.
