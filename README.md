@@ -1,4 +1,8 @@
-# Railway TSN Optimizer 🚆
+<h1 align="center">🛤️ Railway TSN Optimizer 🔀</h1>
+
+<p align="center">
+  <strong>A high-performance, physics-aware discrete Time-Space Network (TSN) scheduling engine designed to maximize freight throughput and resolve routing conflicts along railway corridors.</strong>
+</p>
 
 <p align="center">
   <a href="doc/architecture.md"><img src="https://img.shields.io/badge/Docs-Architecture-FFD700?style=for-the-badge" alt="Architecture Docs"></a>
@@ -17,7 +21,9 @@
   <img src="https://img.shields.io/badge/HiGHS-Solver-0052CC?style=for-the-badge" alt="HiGHS Solver">
 </p>
 
-**A high-performance, physics-aware discrete Time-Space Network (TSN) scheduling engine designed to maximize freight throughput and resolve routing conflicts along railway corridors.** It features a hybrid Rust+Python optimizer that combines parallel compiled bitmask filtering and traction physics simulation with a PyMIP formulation solved via the high-performance parallel dual-simplex HiGHS engine. Run it as a command-line tool or as an interactive Streamlit dashboard to compute conflict-free, optimal train paths in real time.
+---
+
+It features a hybrid Rust+Python optimizer that combines parallel compiled bitmask filtering and traction physics simulation with a PyMIP formulation solved via the high-performance parallel dual-simplex HiGHS engine. Run it as a command-line tool or as an interactive Streamlit dashboard to compute conflict-free, optimal train paths in real time.
 
 <table>
 <tr><td><b>Traction Physics Integration</b></td><td>Dynamically computes block traversal times factoring in train weight, rolling resistance, grade profiles (up to 1:150 rises), curves (down to 200m radius), and speed restrictions (15 km/h slip-diamond crossings) rather than relying on static tables.</td></tr>
