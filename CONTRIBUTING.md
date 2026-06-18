@@ -1,6 +1,6 @@
-# Contributing to KTV-PSA Corridor Freight Scheduler
+# Contributing to Railway TSN Optimizer
 
-First off, thank you for considering contributing to the KTV-PSA Corridor Freight Scheduler! It is people like you who make the open-source community such an amazing place to learn, inspire, and create.
+First off, thank you for considering contributing to the Railway TSN Optimizer! It is people like you who make the open-source community such an amazing place to learn, inspire, and create.
 
 Please read through these guidelines to ensure a smooth contribution process.
 
