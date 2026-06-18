@@ -1,10 +1,10 @@
-# Master Implementation Plan: High-Performance Discrete TSN Freight Scheduling System (KTV–PSA Corridor)
+# Master Implementation Plan: High-Performance Discrete TSN Freight Scheduling System for Railway Corridors
 
 ---
 
 ## 1. Executive Summary
 
-This master implementation document serves as the single source of truth and technical architecture blueprint for deploying a real-time, dynamic freight scheduling system on the **Kottavalasa Junction (KTV) to Palasa (PSA)** railway corridor (~176.83 km, 22 stations). 
+This master implementation document serves as the single source of truth and technical architecture blueprint for deploying a real-time, dynamic freight scheduling system on a multi-station railway corridor (modeled as a general multi-track railway corridor). 
 
 ### 1.1 Project Scope
 The operational dataset encompasses **5,548 unique freight loads** (yielding 95,219 historical tracking logs) navigating concurrently with a fixed, deterministic timetable of **250 high-priority passenger trains** (ranging from ultra-high-priority Vande Bharat Express to regional commuter services). 
@@ -13,7 +13,7 @@ The operational dataset encompasses **5,548 unique freight loads** (yielding 95,
 The primary engineering objective is to **maximize economic throughput** by dynamically scheduling freight movements. The scheduling engine operates by projecting decisions onto a minute-discretized **Discrete Time-Space Network (TSN)**. It ensures collision-free paths by maintaining directional safety headways while strictly complying with highly localized physical constraints:
 * **Station Loop Clear Standing Lengths (MANCSR):** Enforcing track length limits (700m–900m) to prevent main lines from fouling. Freight trains exceeding a station's loop CSR are restricted from dwelling at that station.
 * **Track Geometry Traction Physics:** Accounting for dynamic acceleration and speed adjustments over steep gradients (up to $1:150$ rises) and sharp curves.
-* **Permanent Speed Restrictions (PSRs):** Complying with localized velocity ceilings, such as the 15 km/h limit governing the KUK–VZM slip-diamond crossing.
+* **Permanent Speed Restrictions (PSRs):** Complying with localized velocity ceilings, such as strict limits governing slip-diamond crossings and junction points.
 
 ---
 
@@ -25,7 +25,7 @@ The corridor scheduling problem is formulated as a **Multi-Commodity Network Flo
 
 | Notation | Type | Domain / Elements | Description |
 | :--- | :--- | :--- | :--- |
-| $\mathcal{S}$ | Set | Stations $s \in \{ \text{KTV, KPL, } \dots, \text{PSA} \}$ | All physical stations along the corridor. |
+| $\mathcal{S}$ | Set | Stations $s \in \{ S_1, S_2, \dots, S_N \}$ | All physical stations along the corridor. |
 | $\mathcal{B}$ | Set | Block Sections $b \in \mathcal{B}$ | Directed segments connecting sequential stations. |
 | $\mathcal{T}_F$ | Set | Freight Trains $f \in \mathcal{T}_F$ | The set of active/candidate freight train identifiers. |
 | $\mathcal{E}_f$ | Set | Edges $e \in \mathcal{E}_f$ | Graph edges partitioned into $\mathcal{E}_f^{\text{dep}}, \mathcal{E}_f^{\text{run}}, \mathcal{E}_f^{\text{dwell}}, \mathcal{E}_f^{\text{arr}}$. |
@@ -78,8 +78,8 @@ To prevent trailing collisions on block sections without using continuous big-M 
 $$\sum_{f \in \mathcal{T}_F} \sum_{e \in \mathcal{E}_f^{\text{run}} \cap E_b(t)} x_{f, e} \;\le\; N_b \quad \forall b \in \mathcal{B}, \; \forall t \in \{0, \dots, T - H_b\}$$
 
 Where $E_b(t)$ isolates the set of all running edges transiting block $b$ whose entry timestamps fall within the moving interval $[t, t + H_b - 1]$.
-* **KTV–VZM Segment:** Built on Automatic Track Signalling with 3 main lines ($N_b = 3$), allowing parallel running and dynamic overtaking.
-* **VZM–PSA Segment:** Governed by Automatic Block Signalling with 2 dedicated directional lines ($N_b = 2$), enforcing strict safety headways per track direction.
+* **Multi-Line Segments (e.g., 3 tracks):** Built on Automatic Signalling allowing parallel running, overtaking, and bidirectional operations.
+* **Double-Line Segments (e.g., 2 tracks):** Governed by Automatic Block Signalling with dedicated directional lines, enforcing strict safety headways per track direction.
 
 #### 2.3.4 Physical Station Loop Capacity Constraints
 The volumetric capacity of stationary track space is managed across each minute of the timeline:
@@ -185,7 +185,7 @@ The system uses the open-source **HiGHS** optimization suite (via the `highspy` 
 * **Input Data:** Aligned data arrays from Module 1, station loop records, track gradients, and permanent speed restrictions.
 * **Processing Rules:**
     * **Passenger Masking:** For each block section, build a bit vector where bits are cleared (`0`) during the window $[t_{\text{entry}} - H_b, t_{\text{exit}} + H_b]$ around passenger schedules.
-    * **Dynamic Traversal Calculation:** Compute travel times ($d_f(b)$) by factoring in weight, speed restrictions (e.g., 15 km/h over VZM crossings), and gradient adjustments.
+    * **Dynamic Traversal Calculation:** Compute travel times ($d_f(b)$) by factoring in weight, speed restrictions (e.g., localized junction velocity ceilings), and gradient adjustments.
     * **Loop Capacity Length Filtering:** Compare the physical length of each train with station clear standing lengths. If $L_f > \text{MANCSR}_s$, drop the corresponding dwell edge variable, ensuring long trains stay on the move.
 
 ### Module 3: Python Matrix Formulation Builder
@@ -286,7 +286,7 @@ class CorridorTSNModel:
         """
         valid_edges_dict: f -> list of tuples ((s1, t1), (s2, t2), 'run'|'dwell', block_id)
         """
-        self.model = mip.Model(name="KTV_PSA_Production_Model", solver_name=mip.INF_HIGHS)
+        self.model = mip.Model(name="Railway_TSN_Optimizer_Model", solver_name=mip.INF_HIGHS)
         self.horizon = horizon
         self.x = {}
         

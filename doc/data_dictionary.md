@@ -1,4 +1,4 @@
-# Data Dictionary - KTV-PSA Corridor Scheduler
+# Data Dictionary - Railway TSN Optimizer
 
 This document describes the schema of the CSV datasets stored in the `data/` directory.
 
@@ -15,15 +15,15 @@ This document describes the schema of the CSV datasets stored in the `data/` dir
 * **File:** `schedule.csv` (deterministic passenger timetables)
 * **Fields:**
   - `train_id`: String, Unique passenger train number/id
-  - `train_name`: String, Name (e.g. Vande Bharat Express)
+  - `train_name`: String, Name (e.g. Express Service A)
   - `block_id`: Integer, Block section index being traversed
   - `minutes_entry`: Integer, Relative minute offset of block entry (relative to $T_0$)
   - `minutes_exit`: Integer, Relative minute offset of block exit (relative to $T_0$)
-  - `priority_class`: Integer, Priority tier (1 = Highest, e.g., Vande Bharat)
+  - `priority_class`: Integer, Priority tier (1 = Highest, e.g., High-Speed Express)
 
 ## 3. Infrastructure Data (`data/infrastructure/`)
 * **File:** `stations.csv`
-  - `station_id`: String, Short code (e.g. KTV, VZM, PSA)
+  - `station_id`: String, Short code (e.g. STA, STB, STC)
   - `station_name`: String, Full station name
   - `loop_count`: Integer, Number of loops ($C_s^{\text{loop}}$)
   - `mancsr`: Float, Station Loop Clear Standing Length ($CSR_s$ in meters)
